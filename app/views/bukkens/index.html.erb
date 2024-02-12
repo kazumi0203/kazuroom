@@ -1,0 +1,228 @@
+<h1>物件探し</h1>
+<h3>一覧ページ</h3>
+<% if user_signed_in? %>
+  <% if current_user == @user || current_user.admin? %>
+  <%= link_to "新規投稿へ", new_bukken_path %>
+  
+  <% end %>
+<% end %>
+
+
+
+
+<%=link_to '診断する', 'diags/a' ,class: 'box1' %>
+<%= link_to "ログイン", new_user_session_path %>
+<%= link_to "新規登録", new_user_registration_path %>
+<%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+<div id='map'></div>
+
+<style>
+#map {
+  height: 600px;
+  width: 100%;
+}
+</style>
+
+<!-- js部分 -->
+<script>
+    function initMap() {
+
+      //初期表示位置
+      let latlng = new google.maps.LatLng(35.7201338, 139.7607698);
+      //デザイン
+      let styles = [
+        {
+            "featureType": "administrative",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "administrative.country",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {
+                    "color": "#000000"
+                },
+                {
+                    "visibility": "on"
+                },
+                {
+                    "weight": "0.50"
+                }
+            ]
+        },
+        {
+            "featureType": "administrative.province",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {
+                    "visibility": "on"
+                },
+                {
+                    "color": "#ff0000"
+                },
+                {
+                    "weight": "0.50"
+                }
+            ]
+        },
+        {
+            "featureType": "administrative.locality",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {
+                    "visibility": "on"
+                },
+                {
+                    "color": "#ff0000"
+                },
+                {
+                    "weight": "0.50"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#aee55e"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape.natural.terrain",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#ffffff"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "poi.park",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {
+                    "color": "#00840a"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "transit.line",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "lightness": 700
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#60afd5"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        }
+    ];
+
+      let map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12.7,
+          styles: styles,
+          center: latlng
+      });
+      let transitLayer = new google.maps.TransitLayer();
+      transitLayer.setMap(map);
+
+//複数マーカー ここから
+      <% @bukkens.each do |t|%>
+        ( function() { 
+          let markerLatLng = { lat: <%= t.lat %>, lng: <%= t.lng %> }; // 緯度経度のデータ作成
+          let marker = new google.maps.Marker({ 
+            position: markerLatLng, 
+            map: map 
+          });
+//マーカーをクリックしたとき、詳細情報を表示
+          let infowindow = new google.maps.InfoWindow({
+            position: markerLatLng,
+            content: "<a href='<%= bukken_url(t.id) %>' target='_blank'></a>"
+          }); //ここで詳細ページへのリンクを表示させる
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+
+       })();
+      <% end %>
+      //複数マーカー ここまで  
+  }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcOJzudD9Z4L3M6AJcK-P5poEpw0Y45Qc&callback=initMap" async defer></script>
+
+<div class="bukkens-container">
+  <% @bukkens.each do |t| %>
+    <div class="bukken">
+      <%= t.name %>
+      <%= image_tag t.image_url, size: "250x200" if t.image? %>
+      <%= t.genre %>
+      <%= t.about %>
+      <%= t.address %>
+      <%= link_to "詳細へ", bukken_path(t.id) %> 
+      <% if user_signed_in? %>
+        <% if current_user == @user || current_user.admin? %>
+         <%= link_to "編集する", edit_bukken_path(t.id) %> 
+         <%= button_to "削除する", bukken_path(t.id), method: :delete %> 
+
+        <% end %>
+      <% end %>
+      
+</div>
+<% end %>
+
+
+
+  
+  
+
