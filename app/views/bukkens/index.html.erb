@@ -1,25 +1,29 @@
-<h1>物件探し</h1>
-<h3>一覧ページ</h3>
-<% if user_signed_in? %>
-  <% if current_user == @user || current_user.admin? %>
-  <%= link_to "新規投稿へ", new_bukken_path %>
-  
-  <% end %>
-<% end %>
+<div class="content">
+<div class="tittle">
+    <h1 class="a">BUKKEN GAKUSEI</h1>
+
+    <% if user_signed_in? %>
+    <% if current_user == @user || current_user.admin? %>
+    <%= link_to "新規投稿へ", new_bukken_path %>
+    
+    <% end %>
+    <% end %>
+    <%=link_to '診断する', 'diags/a' ,class: 'box1' %>
+    <br>
+    <%= link_to "ログイン", new_user_session_path %>
+    <%= link_to "新規登録", new_user_registration_path %>
+    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+ </div>
 
 
 
 
-<%=link_to '診断する', 'diags/a' ,class: 'box1' %>
-<%= link_to "ログイン", new_user_session_path %>
-<%= link_to "新規登録", new_user_registration_path %>
-<%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
 <div id='map'></div>
 
 <style>
 #map {
-  height: 600px;
-  width: 100%;
+  height: 560px;
+  width: 54%;
 }
 </style>
 
@@ -90,7 +94,7 @@
             "elementType": "all",
             "stylers": [
                 {
-                    "color": "#aee55e"
+                    "color": "#ffffff"
                 }
             ]
         },
@@ -169,7 +173,7 @@
     ];
 
       let map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12.7,
+          zoom: 11.7,
           styles: styles,
           center: latlng
       });
@@ -200,6 +204,7 @@
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcOJzudD9Z4L3M6AJcK-P5poEpw0Y45Qc&callback=initMap" async defer></script>
+</div>
 
 <div class="bukkens-container">
   <% @bukkens.each do |t| %>

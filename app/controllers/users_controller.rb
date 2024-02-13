@@ -5,7 +5,7 @@ class UsersController < ApplicationController
         @users = User.all
     end
   
-    private
+      private
       def user_admin
          @users = User.all
          if  current_user.admin == false
