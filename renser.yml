@@ -1,0 +1,20 @@
+databases:
+  - name: kazuroom_DB
+    databaseName: kazuroom_db
+    user: kazuroom
+    region: singapore
+services:
+  - type: web
+    name: kazuroom
+    env: ruby
+    region: singapore
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: kazuroom_DB
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
