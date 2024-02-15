@@ -8,15 +8,26 @@ background-color:#E2D6CF
 
 .content{
 display:flex;
-padding-top: 140px;
+margin-right: 100px
+
+
+
 }
 
 .tittle{
-margin-right: 8%;
+margin-right: 10%;
+
 }
 
 .a{
-    font-size: 50px;
+    font-size: 90px;
+    margin-left: 70px;
+    margin-top: 50px;
+}
+
+.b{
+    font-size: 70px;
+    margin-left: 100px;
 }
 
 .box1{
@@ -32,6 +43,8 @@ margin-right: 8%;
     transition    : .3s;         /* なめらか変化 */
     box-shadow    : 6px 6px 3px #666666;  /* 影の設定 */
     border        : 2px solid #000066;    /* 枠の指定 */
+    margin-top    : 220px;
+    margin-left  : 100px;
   
 }
 .box1:hover {
@@ -39,3 +52,8 @@ margin-right: 8%;
     color         : #000066;     /* 背景色     */
     background    : #ffffff;     /* 文字色     */
   }
+
+.box2{
+    display :flex
+   
+}

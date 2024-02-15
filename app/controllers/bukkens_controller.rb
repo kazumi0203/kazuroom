@@ -1,7 +1,7 @@
 class BukkensController < ApplicationController
     before_action :authenticate_user!, except: [:index, :new]
     def index
-        @bukkens = Bukken.all
+        @bukkens = Bukken.order(osusume: :asc)
     end 
     def new
         @bukken = Bukken.new
@@ -41,6 +41,6 @@ class BukkensController < ApplicationController
   
     private
     def bukken_params
-        params.require(:bukken).permit(:name, :image, :address, :genre, :about, :lat, :lng)
+        params.require(:bukken).permit(:name, :image, :address, :genre, :about, :lat, :lng, :osusume)
     end
 end

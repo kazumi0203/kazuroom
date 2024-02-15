@@ -1,7 +1,8 @@
-<div class="content">
-<div class="tittle">
-    <h1 class="a">BUKKEN GAKUSEI</h1>
 
+<div class="content">
+ <div class="tittle">
+    <h1 class="a">BUKKEN </h1><br>
+    <h1 class="b">GAKUSEI </h1>
     <% if user_signed_in? %>
     <% if current_user == @user || current_user.admin? %>
     <%= link_to "新規投稿へ", new_bukken_path %>
@@ -10,11 +11,8 @@
     <% end %>
     <%=link_to '診断する', 'diags/a' ,class: 'box1' %>
     <br>
-    <%= link_to "ログイン", new_user_session_path %>
-    <%= link_to "新規登録", new_user_registration_path %>
-    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
- </div>
-
+    
+</div>
 
 
 
@@ -22,8 +20,8 @@
 
 <style>
 #map {
-  height: 560px;
-  width: 54%;
+  height: 580px;
+  width: 64%;
 }
 </style>
 
